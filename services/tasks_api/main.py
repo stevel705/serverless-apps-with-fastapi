@@ -2,15 +2,14 @@ import uuid
 from typing import Union
 
 import jwt
-from fastapi import FastAPI, Depends, Header, status
+from fastapi import Depends, FastAPI, Header, status
 from fastapi.middleware.cors import CORSMiddleware
 from mangum import Mangum
 
 from config import Config
 from models import Task
-from schemas import CreateTask, APITask, APITaskList, CloseTask
+from schemas import APITask, APITaskList, CloseTask, CreateTask
 from store import TaskStore
-
 
 app = FastAPI()
 
