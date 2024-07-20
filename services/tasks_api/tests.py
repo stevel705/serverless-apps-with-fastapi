@@ -121,7 +121,7 @@ def test_create_task(client, user_email, id_token):
     assert response.status_code == status.HTTP_201_CREATED
     assert body["id"]
     assert body["title"] == title
-    assert body["status"] == "OPEN"
+    assert body["status"] == TaskStatus.OPEN.value
     assert body["owner"] == user_email
 
 
@@ -138,7 +138,7 @@ def test_list_open_tasks(client, user_email, id_token):
     assert body["results"][0]["id"]
     assert body["results"][0]["title"] == title
     assert body["results"][0]["owner"] == user_email
-    assert body["results"][0]["status"] == TaskStatus.OPEN
+    assert body["results"][0]["status"] == TaskStatus.OPEN.value
 
 
 def test_close_task(client, user_email, id_token):
@@ -158,7 +158,7 @@ def test_close_task(client, user_email, id_token):
     assert body["id"]
     assert body["title"] == title
     assert body["owner"] == user_email
-    assert body["status"] == TaskStatus.CLOSED
+    assert body["status"] == TaskStatus.CLOSED.value
 
 
 def test_list_closed_tasks(client, user_email, id_token):
@@ -179,4 +179,4 @@ def test_list_closed_tasks(client, user_email, id_token):
     assert body["results"][0]["id"]
     assert body["results"][0]["title"] == title
     assert body["results"][0]["owner"] == user_email
-    assert body["results"][0]["status"] == TaskStatus.CLOSED
+    assert body["results"][0]["status"] == TaskStatus.CLOSED.value
