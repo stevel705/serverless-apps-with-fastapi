@@ -19,3 +19,6 @@ class Task:
     @classmethod
     def create(cls, id_: UUID, title: str, owner: str) -> "Task":
         return cls(id=id_, title=title, status=TaskStatus.OPEN, owner=owner)
+
+    def close(self) -> None:
+        self.status = TaskStatus.CLOSED
