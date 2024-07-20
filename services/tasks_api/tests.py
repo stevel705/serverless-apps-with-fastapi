@@ -1,9 +1,10 @@
 import uuid
+
 import boto3
 import pytest
 from fastapi import status
-from moto import mock_aws
 from fastapi.testclient import TestClient
+from moto import mock_aws
 
 from main import app
 from models import Task, TaskStatus
