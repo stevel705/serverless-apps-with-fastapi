@@ -6,6 +6,12 @@ on:
       - 'services/tasks_api/**'
       - '.github/workflows/api.yml'
 
+env:
+  AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  AWS_DEFAULT_REGION: eu-central-1
+  APP_ENVIRONMENT: development
+  
 jobs:
     test:
       strategy:
@@ -65,3 +71,38 @@ jobs:
               run: poetry run flake8 .
             - name: Run bandit
               run: poetry run bandit .
+
+    deploy-development:
+      needs: [test, code-quality]
+      strategy:
+        fail-fast: false
+        matrix:
+          python-version: [3.12]
+          poetry-version: [1.8.3]
+          node-version: [20]
+          os: [ubuntu-latest]
+      runs-on: ${{ matrix.os }}
+      defaults:
+        run:
+          working-directory: services/tasks_api
+      steps:
+        - name: Checkout code
+          uses: actions/checkout@v3
+        - name: Setup Python
+          uses: actions/setup-python@v5
+          with:
+            python-version: ${{ matrix.python-version }}
+        - name: Install Poetry
+          uses: abatilo/actions-poetry@v3
+          with:
+              poetry-version: ${{ matrix.poetry-version }}
+        - name: Install Node.js
+          uses: actions/setup-node@v3
+          with:
+            node-version: ${{ matrix.node-version }}
+        - name: Install Serverless Framework
+          run: npm install -g serverless
+        - name: Install npm dependencies
+          run: npm install
+        - name: Deploy to AWS
+          run: serverless deploy --stage development --region eu-central-1
