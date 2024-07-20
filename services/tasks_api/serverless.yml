@@ -32,6 +32,8 @@ provider:
 functions:
   API:
     handler: main.handler
+    timeout: 10
+    memorySize: 512
     events:
       - http:
           path: /{proxy+}
@@ -39,6 +41,13 @@ functions:
           cors:
             origin: ${env.ALLOWED_ORIGIN}
             maxAge: 60
+          authorizer:
+            name: TaskAPIAuthorizer
+            type: COGNITO_USER_POOLS
+            arn:
+              Fn::GetAtt:
+                - CognitoUserPool
+                - Arn
 
 custom:
   pythonRequirements:
@@ -47,10 +56,11 @@ custom:
       - boto3  # already on Lambda
       - botocore  # already on Lambda
   stage: ${opt:stage, self:provider.stage}
-  tableName: tableName: ${self:custom.stage}-tasks-api
+  tableName: ${self:custom.stage}-tasks-api
 
 plugins:
   - serverless-python-requirements
 
 resources:
+  - ${file(resources/cognito.yml)}
   - ${file(resources/dynamodb.yml)}  
