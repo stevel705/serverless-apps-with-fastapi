@@ -16,14 +16,14 @@ class APITask(BaseModel):
     owner: str
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 
 class APITaskList(BaseModel):
     results: list[APITask]
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 
 class CloseTask(BaseModel):

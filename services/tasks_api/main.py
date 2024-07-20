@@ -29,9 +29,9 @@ def get_task_store():
 
 
 def get_user_email(authorization: Union[str, None] = Header(default=None)):
-    if authorization:
-        token = jwt.decode(authorization, verify=False)
-        return token
+    return jwt.decode(authorization, options={"verify_signature": False})[
+        "cognito:username"
+    ]
 
 
 @app.get("/api/health-check/")
