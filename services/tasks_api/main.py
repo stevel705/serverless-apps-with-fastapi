@@ -18,4 +18,4 @@ def health_check():
     return {"message": "OK"}
 
 
-handle = Mangum(app)
+handler = Mangum(app)
