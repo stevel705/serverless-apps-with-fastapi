@@ -40,7 +40,7 @@ functions:
           path: /{proxy+}
           method: any
           cors:
-            origin: ${env.ALLOWED_ORIGIN}
+            origin: 'development-tasks-api-ui.s3.eu-central-1.amazonaws.com'
             maxAge: 60
           authorizer:
             name: TaskAPIAuthorizer
