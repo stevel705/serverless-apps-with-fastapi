@@ -12,7 +12,7 @@
     "@aws-amplify/auth": "^5.0.5",
     "@aws-amplify/ui-vue": "^3.0.4",
     "aws-amplify": "5.3.21",
-    "axios": "^1.7.4",
+    "axios": "^1.9.0",
     "element-plus": "^2.2.26",
     "sass": "^1.56.2",
     "sass-loader": "^13.2.0",
